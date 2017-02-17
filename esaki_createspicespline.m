@@ -149,9 +149,31 @@ end
     %size(mergedcurrent)
     %size(a_voltage)
     
-    figure, plot(a_voltage(1:(pointindex2-1)),a_current(1:(pointindex2-1)),fitgap_voltage,fitgap_current,'r',a_voltage(pointindex4:end),a_current(pointindex4:end),'b');
+    figure;
+    hold on
+    plot(a_voltage(1:(pointindex2-1)),a_current(1:(pointindex2-1)),fitgap_voltage,fitgap_current,'r:',a_voltage(pointindex4:end),a_current(pointindex4:end),'b');
     
-    createspice(a_voltage,mergedcurrent);
+    fit_diode= polyfit(a_voltage,(mergedcurrent), 7);
+    diode_cur_extract=(polyval(fit_diode, a_voltage)); 
+  
+    %fit_diode
+   
+    plot(a_voltage,diode_cur_extract,'k--')
+    
+    plot(a_voltage(pointindex1),a_current(pointindex1),'ko');
+    plot(a_voltage(pointindex2),a_current(pointindex2),'ko');
+    plot(a_voltage(pointindex3),a_current(pointindex3),'ko');
+    plot(a_voltage(pointindex4),a_current(pointindex4),'ko');
+    
+    grid on;
+    title('diode data and extraction fit')
+    xlabel('voltage')
+    ylabel('current');
+    legend('region I data', 'spline fit','region III data','SPICE fit', 'Location','NorthWest')
+    axis([-0.1 0.6 -0.001 0.003]);
+    hold off
+    
+    %createspice(a_voltage,mergedcurrent);
  
 end
 
