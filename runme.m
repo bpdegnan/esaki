@@ -1,4 +1,4 @@
-function runme
+function result=runme
 
 data=load('esakiset.mat');
 esaki_sweep25_0uF_0nH=data.esaki_sweep25_0uF;
@@ -48,6 +48,6 @@ legend('0uF','1uF','10uF','50uF', 'Location', 'NorthWest')
 
 esaki_createspice(esaki_sweep25_50uF_6800nH.voltage-esaki_sweep25_50uF_6800nH.zero,(esaki_sweep25_50uF_6800nH.current));
 test=esaki_sweep25_50uF_6800nH;
-esaki_createspicespline(test.voltage-test.zero,(test.current));
+result=esaki_createspicespline(test.voltage-test.zero,(test.current));
 
 end

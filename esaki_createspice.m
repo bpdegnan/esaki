@@ -212,50 +212,10 @@ end
     axis([-0.1 0.6 -0.001 0.003]);
     hold off;
     %make the spice model
-%    SUBCKT MBD1057 1 2
-%C1 1 2 0.3E-12
-%B1 1 2 I=0.00196*V(1,2)-0.20173*V(1,2)^2+0.48373*V(1,2)^3+1.5996*V(1,2)^4-
-%8.4563*V(1,2) ^5+9.6378*V(1,2)^6
-%.ENDS
+    
+    createspice(a_voltage,a_merge, 7)
+    
 
-fprintf('\n\n');
-fprintf('SUBCKT MBD1057 1 2\n');
-fprintf('C1 1 2 0.3E-12\n');
-fprintf('B1 1 2 I=');
-    fit_diode = fliplr(fit_diode);  %backwards to how spice wants it.
-    for i_counter=1:length(fit_diode)
-        if(i_counter==1)
-            fprintf('%1.5f*V(1,2)',fit_diode(i_counter),i_counter);
-        else
-            fprintf('%+1.5f*V(1,2)^%i',fit_diode(i_counter),i_counter);
-
-        end
-    end
- fprintf('\n');
- fprintf('.END\n');
- 
- %   figure
- %   plot(a_value);
-    
-    
-    
-%     dsum=((dpos)+(dneg));
-%     dabs=abs(dsum);
-%    %plot(dneg)
-%    %hold on
-%    %plot(dpos)
-    if(0)
-    figure;
-     plot(smooth(dpos),'g')
-     hold on;
-     plot(smooth(dneg),'r')
-%     plot(smooth(dsum),'y')
-%     plot(dabs,'k');
-      %# horizontal line
-         hy = graph2d.constantline(0, 'Color',[.7 .7 .7]);
-         changedependvar(hy,'y');
-    end
-   
   
 end
    

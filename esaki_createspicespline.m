@@ -173,7 +173,10 @@ end
     axis([-0.1 0.6 -0.001 0.003]);
     hold off
     
-    %createspice(a_voltage,mergedcurrent);
+    result.a_voltage=a_voltage;
+    result.mergedcurrent=mergedcurrent;
+    
+    createspice(a_voltage,mergedcurrent,7);
  
 end
 

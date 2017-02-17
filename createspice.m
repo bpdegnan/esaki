@@ -1,19 +1,19 @@
-function createspice(a_voltage,a_merge)
+function createspice(a_voltage,a_merge, p_degree)
 
 
-    fit_diode= polyfit(a_voltage,(a_merge), 7);
+    fit_diode= polyfit(a_voltage,(a_merge), p_degree);
     diode_cur_extract=(polyval(fit_diode, a_voltage)); 
-    fit_diode_test= polyfit(a_voltage,(a_merge), 5);
-    diode_cur_extract_test=(polyval(fit_diode_test, a_voltage)); 
+
     %fit_diode
     
     figure 
-    plot(a_voltage,a_merge, a_voltage,diode_cur_extract,'--', a_voltage,diode_cur_extract_test,':')
+    plot(a_voltage,a_merge, a_voltage,diode_cur_extract,'--')
     grid on;
     title('diode data and extraction fit')
     xlabel('voltage')
     ylabel('current');
-    legend('data', 'fit 7th', 'fit 5rd', 'Location','NorthWest')
+    orderlabel=sprintf('fit %ith',p_degree);
+    legend('data',orderlabel , 'Location','NorthWest')
     
     %make the spice model
 %    SUBCKT MBD1057 1 2
@@ -29,29 +29,15 @@ fprintf('B1 1 2 I=');
     fit_diode = fliplr(fit_diode);  %backwards to how spice wants it.
     for i_counter=1:length(fit_diode)
         if(i_counter==1)
-            fprintf('%1.5f*V(1,2)',fit_diode(i_counter),i_counter);
+            fprintf('%1.5f',fit_diode(i_counter));
+        elseif(i_counter==2)
+            fprintf('%+1.5f*V(1,2)',fit_diode(i_counter));    
         else
-            fprintf('%+1.5f*V(1,2)^%i',fit_diode(i_counter),i_counter);
-
+            fprintf('%+1.5f*V(1,2)^%i',fit_diode(i_counter),(i_counter-1));
         end
     end
  fprintf('\n');
  fprintf('.END\n');
  
- fprintf('\n\n');
-fprintf('SUBCKT MBD1057 1 2\n');
-fprintf('C1 1 2 0.3E-12\n');
-fprintf('B1 1 2 I=');
-    fit_diode = fliplr(fit_diode_test);  %backwards to how spice wants it.
-    for i_counter=1:length(fit_diode)
-        if(i_counter==1)
-            fprintf('%1.5f*V(1,2)',fit_diode(i_counter),i_counter);
-        else
-            fprintf('%+1.5f*V(1,2)^%i',fit_diode(i_counter),i_counter);
-
-        end
-    end
- fprintf('\n');
- fprintf('.END\n');
 
 end
